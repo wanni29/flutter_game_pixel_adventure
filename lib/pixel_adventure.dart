@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+//  package: flame / game.dart  -> 이 라이브러리가 update, onLoad라는 메소드를 가지고 있음
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:pixel_adventure/components/player.dart';
@@ -23,9 +24,12 @@ class PixelAdventure extends FlameGame
 
   Player player = Player(character: 'Mask Dude');
 
+  // FutureOr<void> onLoad => 게임의 처음 초기값 셋팅 메소드
   @override
   FutureOr<void> onLoad() async {
     // Load all Images into cache
+    // assets안에 있는 이미지를 미리 캐싱 해둠으로써
+    // 데이터를 효율적으로 관리하도록 관리
     await images.loadAllImages();
 
     final world = Level(
@@ -33,6 +37,8 @@ class PixelAdventure extends FlameGame
       levelName: 'level-01.tmx',
     );
 
+    // cam이란 ?
+    // 게임을 플레이하는 유저들에게 화면을 어떻게 보여줄것인가를 정하는거임
     cam = CameraComponent.withFixedResolution(
         world: world, width: 640, height: 360);
 
@@ -49,6 +55,7 @@ class PixelAdventure extends FlameGame
     return super.onLoad();
   }
 
+  // 매 프레임 마다 게임의 상태를 업데이트 하는 로직
   @override
   void update(double dt) {
     if (showJoystick) {
