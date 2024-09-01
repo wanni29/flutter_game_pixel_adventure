@@ -28,7 +28,7 @@ class Player extends SpriteAnimationGroupComponent
   final double stepTime = 0.05;
 
   final double _gravity = 9.8;
-  final double _jumpForce = 460;
+  final double _jumpForce = 380;
   final double _terminalVelocity = 300;
   double horizontalMovement = 0;
   double moveSpeed = 100;
@@ -46,10 +46,13 @@ class Player extends SpriteAnimationGroupComponent
   // 화면에 나오게 하도록 초기값 셋팅  (initState())
   @override
   FutureOr<void> onLoad() {
-    _onLoadAllAnimations();
-    add(RectangleHitbox(
+    _loadAllAnimations();
+    add(
+      RectangleHitbox(
         position: Vector2(hitbox.offsetX, hitbox.offsetY),
-        size: Vector2(hitbox.width, hitbox.height)));
+        size: Vector2(hitbox.width, hitbox.height),
+      ),
+    );
     // debugMode = true;
     return super.onLoad();
   }
@@ -82,10 +85,8 @@ class Player extends SpriteAnimationGroupComponent
     return super.onKeyEvent(event, keysPressed);
   }
 
-  void _onLoadAllAnimations() {
-    //  가만히 있을때 : idle state
+  void _loadAllAnimations() {
     idleAnimation = _spriteAnimation('Idle', 11);
-    // 달릴때 : running state
     runningAnimation = _spriteAnimation('Run', 12);
     jumpingAnimation = _spriteAnimation('Jump', 1);
     fallingAnimation = _spriteAnimation('Fall', 1);
@@ -137,7 +138,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _updatePlayerMovement(double dt) {
-    if (hasJumped && isOnGround) _playerump(dt);
+    if (hasJumped && isOnGround) _playerJump(dt);
 
     // if (velocity.y > _gravity) isOnGround = false;
 
@@ -145,17 +146,17 @@ class Player extends SpriteAnimationGroupComponent
     position.x += velocity.x * dt;
   }
 
-  void _playerump(double dt) {
+  void _playerJump(double dt) {
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
     isOnGround = false;
     hasJumped = false;
   }
 
+  // this = player
   void _checkHorizontalCollisions() {
     for (final block in collisionBlocks) {
       if (!block.isPlatform) {
-        // this = player
         if (checkCollision(this, block)) {
           if (velocity.x > 0) {
             velocity.x = 0;
