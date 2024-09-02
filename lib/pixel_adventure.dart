@@ -12,7 +12,7 @@ import 'package:pixel_adventure/components/level.dart';
 // HasKeyboardHandlerComponents => 키보드에 대하여 제어하도록 컴포넌트 가져옴
 // DragCallbacks => 모바일 조이스틱에 대하여 제어하도록 컴포넌트 가져옴
 class PixelAdventure extends FlameGame
-    with HasKeyboardHandlerComponents, DragCallbacks {
+    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
   @override
   Color backgroundColor() => const Color(0xFF211F30);
 
