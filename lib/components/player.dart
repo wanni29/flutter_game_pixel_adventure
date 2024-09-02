@@ -58,7 +58,9 @@ class Player extends SpriteAnimationGroupComponent
     return super.onLoad();
   }
 
-  // 어떻게  움직일지 초기값 셋팅 (initState())
+  // 매 프레임마다 게임의 구성요소를 어떻게 업데이트를 진행시킬것인가
+  // `double dt` => 이 값은
+  // 이전 프레임과 다음 프레임의 시간간격을 나타내는 것이다.
   @override
   void update(double dt) {
     _updatePlayerState();
